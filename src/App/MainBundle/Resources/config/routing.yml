@@ -1,0 +1,3 @@
+default:
+    pattern:  /
+    defaults: { _controller: MainBundle:Default:index }

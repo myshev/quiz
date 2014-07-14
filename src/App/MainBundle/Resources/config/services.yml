@@ -1,0 +1,16 @@
+#parameters:
+#    sir_ot.example.class: App\MainBundle\MainBundle
+#
+services:
+    main:
+        class: App\MainBundle\MainBundle
+        arguments: ["@security.context"]
+
+    request:
+        class: Symfony\Component\HttpFoundation\Request
+
+    labor_protection.twig.extension:
+        class: App\MainBundle\Twig\Extension\AppExtension
+        arguments:  [@request]
+        tags:
+            - {name: twig.extension}
