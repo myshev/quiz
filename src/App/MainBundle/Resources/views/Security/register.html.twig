@@ -1,0 +1,25 @@
+{% extends 'MainBundle::layout.html.twig' %}
+
+{% block content %}
+    {{ form_start(form) }}
+    <div class="registrationBox">
+        <div class="cabinet">
+            <div class="cabinet__i cabinet_r">
+                {{ form_errors(form) }}
+                <div class="formBox">
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.password) }}
+                    {{ form_row(form.agree) }}
+                </div><!--formBox-->
+            </div><!--cabinet__i-->
+        </div><!--cabinet-->
+        <div class="footForm">
+            <button class="button" type="submit">
+                <span>
+                    Зарегистрироваться
+                </span>
+            </button>
+        </div>
+    </div><!--registrationBox-->
+    {{ form_end(form) }}
+{% endblock %}

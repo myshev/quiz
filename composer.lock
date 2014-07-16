@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0f5bf28fac35560dbdb2e597d32df056",
+    "hash": "09d01a657fe2960577c5887908da78ee",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -628,6 +628,57 @@
                 "orm"
             ],
             "time": "2014-07-11 03:05:53"
+        },
+        {
+            "name": "fresh/doctrine-enum-bundle",
+            "version": "dev-master",
+            "target-dir": "Fresh/Bundle/DoctrineEnumBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fre5h/DoctrineEnumBundle.git",
+                "reference": "8dda28a1ebb1bb93d1c91f0facd78bfa7ce0f79e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fre5h/DoctrineEnumBundle/zipball/8dda28a1ebb1bb93d1c91f0facd78bfa7ce0f79e",
+                "reference": "8dda28a1ebb1bb93d1c91f0facd78bfa7ce0f79e",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": ">=2.2",
+                "php": ">=5.4.0",
+                "symfony/symfony": ">=2.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Fresh\\Bundle\\DoctrineEnumBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Artem Genvald",
+                    "email": "genvaldartem@gmail.com",
+                    "homepage": "http://genvald.name",
+                    "role": "Creator"
+                }
+            ],
+            "description": "Provides support of MySQL ENUM type for Doctrine2 in Symfony2 applications.",
+            "homepage": "https://github.com/fre5h/DoctrineEnumBundle",
+            "keywords": [
+                "bundle",
+                "dbal",
+                "doctrine",
+                "entity",
+                "enum",
+                "symfony",
+                "type"
+            ],
+            "time": "2014-04-11 07:23:08"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1583,7 +1634,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "fresh/doctrine-enum-bundle": 20
+    },
     "platform": {
         "php": ">=5.3.3"
     },

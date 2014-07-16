@@ -1,0 +1,13 @@
+App\MainBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: email
+            message: Пользователь с данным email уже зарегистрирован
+    properties:
+        email:
+            - NotBlank: ~
+            - Email: ~
+        password:
+            - NotBlank:
+                groups: [registration, change_password]
+            - Length: {max: 4000}
