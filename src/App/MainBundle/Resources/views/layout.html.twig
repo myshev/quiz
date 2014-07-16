@@ -2,8 +2,16 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Викторина{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" src="{{ asset('css/reset.css') }}" />
+            <link rel="stylesheet" src="{{ asset('css/main.css') }}" />
+            <link rel="stylesheet" src="{{ asset('css/bootstrap.min.css') }}" />
+        {% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery-2.1.1.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('js/main.js') }}"></script>
+        {% endblock %}
     </head>
     <body>
         <div>
