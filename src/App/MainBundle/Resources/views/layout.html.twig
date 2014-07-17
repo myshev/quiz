@@ -20,6 +20,7 @@
                 <a href="{{ path('default') }}">Logo</a>
                 {% if app.user %}
                     <div class="container-fluid">
+                        <a href="{{ path('admin_index') }}">Администрирование</a>
                         <a href="{{ path('user') }}">{{ app.user.email }}</a>
                         <a href="{{ path('logout') }}">Выход</a>
                     </div>

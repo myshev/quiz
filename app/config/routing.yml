@@ -1,6 +1,6 @@
-admin:
+_admin:
     resource: "@AdminBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /admin
 
 _main:
     resource: @MainBundle/Resources/config/routing.yml
