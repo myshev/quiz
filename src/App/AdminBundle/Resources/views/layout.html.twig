@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Neon Admin Panel"/>
+
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block css %}
+        <link rel="stylesheet" href="{{ asset('bundles/admin/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css') }}">
+        <link rel="stylesheet" href="http://themes.laborator.co/neon/assets/css/font-icons/entypo/css/entypo.css"  id="style-resource-2">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic">
+        <link rel="stylesheet" href="{{ asset('bundles/admin/css/bootstrap.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('bundles/admin/js/select2/select2-bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/admin/js/select2/select2.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/admin/js/daterangepicker/daterangepicker-bs3.css') }}"/>
+
+        <link rel="stylesheet" href="{{ asset('bundles/admin/css/neon.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/admin/css/custom.css') }}">
+
+    {% endblock %}
+
+    {% block js %}
+        <script src="{{ asset('bundles/admin/js/jquery-1.11.0.min.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/gsap/main-gsap.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/bootstrap.js') }}"></script>
+
+        <script src="{{ asset('bundles/admin/js/resizeable.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/neon-api.js') }}"></script>
+
+        <script src="{{ asset('bundles/admin/js/bootstrap-switch.min.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/select2/select2.min.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/bootstrap-datepicker.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/bootstrap-timepicker.min.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/daterangepicker/moment.min.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/daterangepicker/daterangepicker.js') }}"></script>
+
+        <script src="{{ asset('bundles/admin/js/jquery.autosize.min.js') }}"></script>
+
+        <script src="{{ asset('bundles/admin/js/neon-custom.js') }}"></script>
+        <script src="{{ asset('bundles/admin/js/custom.js') }}"></script>
+    {% endblock %}
+</head>
+{% block body %}
+<body class="page-body">
+    <div class="page-container horizontal-menu with-sidebar">
+        <header class="navbar"><!-- set fixed position by adding class "navbar-fixed-top" -->
+            <div class="navbar-inner">
+                <!-- logo -->
+                <div class="navbar-brand">
+                    <a href="{{ path('admin_index') }}">
+                        <img src="{{ asset('bundles/admin/images/logo@2x.png') }}" width="88" alt="">
+                    </a>
+                </div>
+                <!-- main menu -->
+                <ul class="navbar-nav">
+                    {#<li class="root-level has-sub">#}
+                        {#<a href="{{ path('admin_index') }}"><i class="fa fa-dashboard"></i><span> Главная</span>#}
+                        {#</a>#}
+                    {#</li>#}
+                </ul>
+                <ul class="nav navbar-right pull-right">
+                    <li class="sep"></li>
+                    <li>
+                        <a href="{{ path('logout') }}">
+                            Выйти <i class="entypo-logout right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="sidebar-menu">
+            <ul id="main-menu">
+                {% set menu = [
+                        {url: path('admin_index'), title: 'Главная', test: '/^admin_index$/', icon: 'fa fa-dashboard'},
+                        {url: path('admin_user_list'), title: 'Пользователи', test: '/^admin_user/', icon: 'fa fa-users'}
+                    ]
+                %}
+
+                {% set currentRoute = app.request.attributes.get('_route') %}
+                {% for item in menu %}
+                    {% set isCurrent = false %}
+                    {% if item.test is defined %}
+                        {% if item.test is iterable %}
+                            {% for item in item.test %}
+                                {% if isCurrent is empty %}
+                                    {% set isCurrent = isCurrent or currentRoute matches item %}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% set isCurrent = isCurrent or currentRoute matches item.test %}
+                        {% endif %}
+                    {% endif %}
+                    {% if item.children is defined and not isCurrent %}
+                        {% for child in item.children %}
+                            {% set isCurrent = isCurrent or currentRoute matches child.test %}
+                        {% endfor %}
+                    {% endif %}
+                    <li class="root-level {{ isCurrent ? 'active opened' : '' }} {{ item.children is defined ? ' has-sub' : '' }}">
+                        <a href="{{ item.url }}"><i class="{{ item.icon|default('') }}"></i><span>{{ item.title }}</span></a>
+                        {% if item.children is defined %}
+                            <ul>
+                                {% for item in item.children %}
+                                    <li class="{{ currentRoute matches item.test ? 'active' : '' }}"><a href="{{ item.url }}"><i class="{{ item.icon|default('') }}"></i><span>{{ item.title }}</span></a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <ol class="breadcrumb">
+                {% block breadcrumbs %}
+                    <li><a href="{{ path('admin_index') }}" class="entypo-home"></a></li>
+                    {% for item in app.breadcrumbs %}
+                        {% if loop.last %}
+                            <li class="active">{{ item.title }}</li>
+                        {% else %}
+                            <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                {% endblock breadcrumbs %}
+            </ol>
+            {% for type, flashes in app.session.flashbag.all() %}
+                {% for message in flashes %}
+                    <div class="alert alert-{{ type|replace({error: 'danger'}) }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            <h2>{% block content_header %}{% endblock %}</h2>
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+{% endblock %}
+</html>

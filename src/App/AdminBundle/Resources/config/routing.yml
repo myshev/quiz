@@ -1,0 +1,7 @@
+admin_index:
+    pattern:  /
+    defaults: { _controller: AdminBundle:Default:index }
+
+_admin_users:
+    prefix: /user
+    resource: @AdminBundle/Resources/config/routing/users.yml

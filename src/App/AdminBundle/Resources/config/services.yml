@@ -1,0 +1,7 @@
+parameters:
+    templating.globals.class: App\AdminBundle\Twig\GlobalVariables
+
+services:
+#    admin.example:
+#        class: %admin.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

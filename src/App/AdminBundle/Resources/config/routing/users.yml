@@ -1,0 +1,19 @@
+admin_user_index:
+    path: /
+    defaults:
+        _controller: AdminBundle:User:index
+
+admin_user_list:
+    path: /list
+    defaults:
+        _controller: AdminBundle:User:list
+
+admin_user_new:
+    path: /new
+    defaults:
+        _controller: AdminBundle:User:edit
+
+admin_user_edit:
+    path: /{id}/edit
+    defaults:
+        _controller: AdminBundle:User:edit

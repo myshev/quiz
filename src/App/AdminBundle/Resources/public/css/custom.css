@@ -1,0 +1,28 @@
+/**
+ *
+ * Apply Here your Custom CSS
+ *
+*/
+
+body {
+	
+}
+
+label.required:after{content: ' *'}
+
+.datatable td {
+    position: relative;
+}
+
+.datatable img {
+    max-height: 25px;
+    position: static;
+}
+
+.datatable td:hover img {
+    max-height: 400px;
+    max-width: 600px;
+    position: absolute;
+    z-index: 1;
+    background: #ffffff;
+}
