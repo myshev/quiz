@@ -1,17 +1,5 @@
 {% extends 'MainBundle::layout.html.twig' %}
 
 {% block content %}
-    {{ form_start(form) }}
-        <div class="formLogin">
-            {{ form_row(form._username) }}
-            {{ form_row(form._password) }}
-            {{ block('forget') }}
-            {{ form_row(form._remember_me, {attr: {wrapperClass: 'rememberBox'}}) }}
-        </div>
-        <div class="BtnBox">
-            <a href="{{ path('register') }}"><button class="button" type="button"><span>Регистрация</span></button></a>
-            <button class="loginBtn" type="submit"><span>Войти</span></button>
-        </div>
-    {{ form_end(form) }}
-
+    {{ include('MainBundle:Security:loginForm.html.twig') }}
 {% endblock %}

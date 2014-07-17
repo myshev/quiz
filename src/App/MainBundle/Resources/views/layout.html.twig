@@ -1,11 +1,12 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Викторина{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" src="{{ asset('css/reset.css') }}" />
-            <link rel="stylesheet" src="{{ asset('css/main.css') }}" />
-            <link rel="stylesheet" src="{{ asset('css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/reset.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
         {% endblock %}
         {% block javascripts %}
             <script src="{{ asset('js/jquery-2.1.1.min.js') }}"></script>
@@ -14,8 +15,21 @@
         {% endblock %}
     </head>
     <body>
-        <div>
-            {% block content %}{% endblock %}
+        <div class="container">
+            <div class="row">
+                <a href="{{ path('default') }}">Logo</a>
+                {% if app.user %}
+                    <div class="container-fluid">
+                        <a href="{{ path('user') }}">{{ app.user.email }}</a>
+                        <a href="{{ path('logout') }}">Выход</a>
+                    </div>
+                {% else  %}
+                    {{ render(controller('MainBundle:Security:loginForm')) }}
+                {% endif %}
+                <div class="container-fluid">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
         </div>
     </body>
 </html>

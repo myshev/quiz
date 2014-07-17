@@ -15,3 +15,7 @@ register:
 default:
     pattern:  /
     defaults: { _controller: MainBundle:Default:index }
+
+_user:
+    prefix: /user
+    resource: routing/user.yml

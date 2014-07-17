@@ -10,8 +10,11 @@ use Symfony\Component\Security\Core\SecurityContext;
 class SecurityController extends BaseController {
 
     public function loginAction(Request $request) {
+        $securityContext = $this->container->get('security.context');
+        if( $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirect($this->generateUrl('default'));
+        }
         $session = $request->getSession();
-        $username = $session->get(SecurityContext::LAST_USERNAME);
 
         $user = null;
 
@@ -23,33 +26,9 @@ class SecurityController extends BaseController {
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
-        $data = [
-            '_username' => $username,
-            '_password' => '',
-            '_remember_me' => false,
-        ];
 
-        $builder = $this->container->get('form.factory')->createNamedBuilder('', 'form', $data, [
-            'csrf_protection' => true,
-            'csrf_field_name' => '_csrf_token',
-            'intention'       => 'authenticate'
-        ]);
+        $form = $this->getLoginForm($request);
 
-        $builder
-            ->add('_username', 'email', [
-                'label' => 'Email'
-            ])
-            ->add('_password', 'password', [
-                'label' => 'Пароль'
-            ])
-            ->add('_remember_me', 'checkbox', [
-                'label' => 'Запомнить меня',
-                'required' => false,
-            ])
-            ->setAction($this->generateUrl('login_check'))
-        ;
-
-        $form = $builder->getForm();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -67,6 +46,11 @@ class SecurityController extends BaseController {
 
     public function registerAction(Request $request)
     {
+        $securityContext = $this->container->get('security.context');
+        if( $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirect($this->generateUrl('default'));
+        }
+
         $user = new User();
         $user
             ->setEnabled(true); // FIXME
@@ -86,7 +70,7 @@ class SecurityController extends BaseController {
 
             ])
             ->add('agree', 'checkbox', [
-                'label' => 'Я согласен продать душу CPA point',
+                'label' => 'Я согласен',
                 'required' => true,
                 'mapped' => false,
             ])
@@ -164,6 +148,46 @@ class SecurityController extends BaseController {
 
         return $this->render('MainBundle:Security:recover.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    private function getLoginForm(Request $request) {
+        $session = $request->getSession();
+        $username = $session->get(SecurityContext::LAST_USERNAME);
+
+        $data = [
+            '_username' => $username,
+            '_password' => '',
+            '_remember_me' => false,
+        ];
+
+        $builder = $this->container->get('form.factory')->createNamedBuilder('', 'form', $data, [
+            'csrf_protection' => true,
+            'csrf_field_name' => '_csrf_token',
+            'intention'       => 'authenticate'
+        ]);
+
+        $builder
+            ->add('_username', 'email', [
+                'label' => 'Email'
+            ])
+            ->add('_password', 'password', [
+                'label' => 'Пароль'
+            ])
+            ->add('_remember_me', 'checkbox', [
+                'label' => 'Запомнить меня',
+                'required' => false,
+            ])
+            ->setAction($this->generateUrl('login_check'))
+        ;
+
+        return $builder->getForm();
+    }
+
+    public function loginFormAction(Request $request)
+    {
+        return $this->render('MainBundle:Security:loginForm.html.twig', [
+            'form' => $this->getLoginForm($request)->createView()
         ]);
     }
 }
