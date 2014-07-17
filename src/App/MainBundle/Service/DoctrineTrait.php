@@ -56,4 +56,12 @@ trait DoctrineTrait
     {
         return $this->getRepository('User');
     }
+
+    /**
+     * @return CategoryRepository
+     */
+    public function getCategoryRepository()
+    {
+        return $this->getRepository('Category');
+    }
 }

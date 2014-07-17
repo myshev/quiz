@@ -49,8 +49,10 @@ class UserController extends CoreController
             ->add('email', null, [
                 'label' => 'Email'
             ])
-            ->add('plainPassword', null, [
-                'label' => 'Пароль',
+            ->add('plainPassword', 'repeated', [
+                'type' => 'password',
+                'first_options'  => ['label' => 'Пароль'],
+                'second_options' => ['label' => 'И еще раз'],
                 'required' => false,
             ])
             ->add('roles', 'choice', [
@@ -144,4 +146,18 @@ class UserController extends CoreController
 
         return $entity;
     }
-} 
+
+    public function removeAction(Request $request, $id)
+    {
+        $user = $this->findUser($id);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($user);
+        $em->flush();
+
+        $this->addFlashMessage('success', 'Пользователь удален');
+
+        return $this->redirect($this->generateUrl('admin_user_list'));
+    }
+}

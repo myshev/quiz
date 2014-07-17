@@ -1,0 +1,24 @@
+admin_category_index:
+    path: /
+    defaults:
+        _controller: AdminBundle:Category:index
+
+admin_category_list:
+    path: /list
+    defaults:
+        _controller: AdminBundle:Category:list
+
+admin_category_new:
+    path: /new
+    defaults:
+        _controller: AdminBundle:Category:edit
+
+admin_category_edit:
+    path: /{id}/edit
+    defaults:
+        _controller: AdminBundle:Category:edit
+
+admin_category_remove:
+    path: /{id}/remove
+    defaults:
+        _controller: AdminBundle:Category:remove

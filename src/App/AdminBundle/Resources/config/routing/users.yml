@@ -17,3 +17,8 @@ admin_user_edit:
     path: /{id}/edit
     defaults:
         _controller: AdminBundle:User:edit
+
+admin_user_remove:
+    path: /{id}/remove
+    defaults:
+        _controller: AdminBundle:User:remove

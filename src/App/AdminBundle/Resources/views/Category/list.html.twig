@@ -1,0 +1,32 @@
+{% extends 'AdminBundle:CRUD:list.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ app.breadcrumbs.prepend('Список', path('admin_category_list')) }}
+    {{ app.breadcrumbs.prepend('Категории', path('admin_category_list')) }}
+    {{ parent() }}
+{% endblock %}
+
+{% block content_title %}Список категория{% endblock %}
+
+{% block content_options %}
+    <a href="{{ path('admin_category_new') }}" title="Добавить" class="bg"><i class="entypo-plus"></i></a>
+{% endblock %}
+
+{% block thead %}
+    <tr>
+        <th class="sorted">{{ knp_pagination_sortable(pagination, 'Название', 'c.name') }}</th>
+        <th class="sorted">Действия</th>
+    </tr>
+{% endblock %}
+
+{% block tbody %}
+    {% for item in pagination %}
+        <tr>
+            <td><a href="{{ path('admin_category_edit', {id: item.id}) }}">{{ item.name }}</a></td>
+            <td>
+                <a href="{{ path('admin_category_edit', {id: item.id}) }}" class="btn btn-default btn-sm btn-icon icon-left"><i class="entypo-pencil"></i> Редактировать</a>
+                <a href="{{ path('admin_category_remove', {id: item.id}) }}" class="btn btn-danger btn-sm btn-icon icon-left remove-element"><i class="entypo-trash"></i> Удалить</a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

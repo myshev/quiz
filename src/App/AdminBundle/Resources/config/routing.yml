@@ -5,3 +5,7 @@ admin_index:
 _admin_users:
     prefix: /user
     resource: @AdminBundle/Resources/config/routing/users.yml
+
+_admin_category:
+    prefix: /category
+    resource: @AdminBundle/Resources/config/routing/category.yml
