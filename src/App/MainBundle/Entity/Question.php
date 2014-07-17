@@ -5,9 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="category")
+ * @ORM\Table(name="question")
  */
-class Category
+class Question
 {
     /**
      * @ORM\Id
@@ -20,6 +20,14 @@ class Category
      * @ORM\Column(type="string", unique=true)
      */
     protected $name;
+
+    /**
+     * @var Category
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
+     */
+    protected $category;
+
 
 
     public function getId()
@@ -39,7 +47,14 @@ class Category
         return $this->name;
     }
 
-    public function __toString() {
-        return $this->getName();
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
+        return $this;
     }
 }

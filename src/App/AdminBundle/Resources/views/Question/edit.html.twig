@@ -1,0 +1,19 @@
+{% extends 'AdminBundle:CRUD:edit.html.twig' %}
+
+{% block breadcrumbs %}
+    {% if isNew %}
+        {{ app.breadcrumbs.prepend('Добавление вопроса') }}
+    {% else %}
+        {{ app.breadcrumbs.prepend('Редактирование вопроса') }}
+    {% endif %}
+    {{ app.breadcrumbs.prepend('Вопросы', path('admin_question_list')) }}
+    {{ parent() }}
+{% endblock %}
+
+{% block panel_title %}
+    {% if isNew %}
+        {{ 'Добавление вопроса' }}
+    {% else %}
+        {{ 'Редактирование вопроса' }}
+    {% endif %}
+{% endblock %}

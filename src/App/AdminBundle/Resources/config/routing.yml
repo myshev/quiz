@@ -9,3 +9,7 @@ _admin_users:
 _admin_category:
     prefix: /category
     resource: @AdminBundle/Resources/config/routing/category.yml
+
+_admin_question:
+    prefix: /question
+    resource: @AdminBundle/Resources/config/routing/question.yml

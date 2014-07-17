@@ -1,0 +1,34 @@
+{% extends 'AdminBundle:CRUD:list.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ app.breadcrumbs.prepend('Список', path('admin_question_list')) }}
+    {{ app.breadcrumbs.prepend('Вопросы', path('admin_question_list')) }}
+    {{ parent() }}
+{% endblock %}
+
+{% block content_title %}Список вопросов{% endblock %}
+
+{% block content_options %}
+    <a href="{{ path('admin_question_new') }}" title="Добавить" class="bg"><i class="entypo-plus"></i></a>
+{% endblock %}
+
+{% block thead %}
+    <tr>
+        <th class="sorted">{{ knp_pagination_sortable(pagination, 'Вопрос', 'q.name') }}</th>
+        <th class="sorted">{{ knp_pagination_sortable(pagination, 'Категория', 'q.category') }}</th>
+        <th class="sorted">Действия</th>
+    </tr>
+{% endblock %}
+
+{% block tbody %}
+    {% for item in pagination %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.category.name }}</td>
+            <td>
+                <a href="{{ path('admin_question_edit', {id: item.id}) }}" class="btn btn-default btn-sm btn-icon icon-left"><i class="entypo-pencil"></i> Редактировать</a>
+                <a href="{{ path('admin_question_remove', {id: item.id}) }}" class="btn btn-danger btn-sm btn-icon icon-left remove-element"><i class="entypo-trash"></i> Удалить</a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
