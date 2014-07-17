@@ -1,0 +1,19 @@
+{% extends 'AdminBundle:CRUD:edit.html.twig' %}
+
+{% block breadcrumbs %}
+    {% if isNew %}
+        {{ app.breadcrumbs.prepend('Добавление пользователя') }}
+    {% else %}
+        {{ app.breadcrumbs.prepend('Редактирование пользователя') }}
+    {% endif %}
+    {{ app.breadcrumbs.prepend('Пользователи', path('admin_user_list')) }}
+    {{ parent() }}
+{% endblock %}
+
+{% block panel_title %}
+    {% if isNew %}
+        {{ 'Добавление пользователя' }}
+    {% else %}
+        {{ 'Редактирование пользователя' }}
+    {% endif %}
+{% endblock %}

@@ -2,3 +2,13 @@ services:
     quiz.security.user_provider:
         class: App\MainBundle\Security\UserProvider
         arguments: [@doctrine.orm.default_entity_manager]
+
+    quiz.twig.extension:
+        class: App\MainBundle\Twig\Extension\AppExtension
+        tags:
+            - {name: twig.extension}
+
+    quiz.form.extension.hint:
+        class: App\MainBundle\Form\Extension\HintExtension
+        tags:
+            - { name: form.type_extension, alias: form }

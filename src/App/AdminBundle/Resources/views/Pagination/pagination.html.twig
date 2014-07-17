@@ -1,0 +1,43 @@
+{% if pageCount > 1 %}
+    <ul class="pagination pagination-sm" style="margin: 0">
+        {% block previous_page %}
+            {% if previous is defined %}
+                <li><a href="{{ path(route, query|merge({page: previous})) }}" data-page="{{ previous }}">«</a></li>
+            {% endif %}
+        {% endblock %}
+
+        {% block first_page %}
+            {% if first != firstPageInRange %}
+                <li><a href="{{ path(route, query|merge({page: first})) }}" data-page="{{ first }}">{{ first }}</a></li>
+
+                {% if first + 1 not in pagesInRange %}
+                    <li><a>…</a></li>
+                {% endif %}
+            {% endif %}
+        {% endblock %}
+
+        {% block range_pages %}
+            {% for page in pagesInRange %}
+                {% block ranged_page %}
+                    <li class="{{ page == current ? 'active' : '' }}"><a href="{{ path(route, query|merge({page: page})) }}" data-page="{{ page }}">{{ page }}</a></li>
+                {% endblock %}
+            {% endfor %}
+        {% endblock %}
+
+        {% block last_page %}
+            {% if last != lastPageInRange %}
+                {% if last - 1 not in pagesInRange %}
+                    <li ><a>…</a></li>
+                {% endif %}
+                <li><a href="{{ path(route, query|merge({page: last})) }}" data-page="{{ last }}">{{ last }}</a></li>
+            {% endif %}
+        {% endblock %}
+
+
+        {% block next_page %}
+            {% if next is defined %}
+                <li><a href="{{ path(route, query|merge({page: next})) }}" data-page="{{ next }}">»</a></li>
+            {% endif %}
+        {% endblock %}
+    </ul>
+{% endif %}

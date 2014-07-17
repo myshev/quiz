@@ -6,6 +6,7 @@ use App\MainBundle\Entity\User;
 use App\MainBundle\Security\UserProvider;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Security\Core\SecurityContext;
+use Knp\Component\Pager\Paginator;
 
 trait ContainerTrait
 {
@@ -66,5 +67,13 @@ trait ContainerTrait
     public function getEncoderFactory()
     {
         return $this->getContainer()->get('security.encoder_factory');
+    }
+
+    /**
+     * @return Paginator
+     */
+    public function getPaginator()
+    {
+        return $this->getContainer()->get('knp_paginator');
     }
 }

@@ -1,0 +1,159 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block form_hint %}
+    {% if hint %}<p class="help-block">{{ hint }}</p>{% endif %}
+{% endblock %}
+
+{% block form_start %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-horizontal')|trim}) %}
+    {{ parent() }}
+{% endblock %}
+
+{% block form_widget_simple %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{ parent() }}
+{% endblock %}
+
+{% block form_label %}
+    {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' control-label')|trim}) %}
+    {{ parent() }}
+{% endblock %}
+
+{% block form_row %}
+    <div class="form-group{{ errors|length ? ' has-error' : '' }}" id="{{ id }}-form_group">
+        {{ form_label(form, form.vars.label, {label_attr: {class: 'col-sm-2'}}) }}
+        <div class="col-sm-10">
+            {{ form_widget(form) }}
+            {{ block('form_hint') }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                <p class="help-block">{{ error.message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block submit_row %}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-5">
+            {{ form_widget(form, {attr: {class: 'btn btn-primary'}}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block submit_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button type="submit" {{ block('button_attributes') }}><i class="fa fa-save"></i> {{ label|trans({}, translation_domain) }}</button>
+    {% endspaceless %}
+{% endblock %}
+
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        {% for child in form %}
+            <div class="checkbox">
+                {{ form_label(child) }}
+                {{ form_widget(child) }}
+            </div>
+        {% endfor %}
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}
+
+{% block checkbox_widget %}
+    <div class="make-switch switch-small">
+        {{ parent() }}
+    </div>
+{% endblock %}
+
+{% block choice_widget %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' select2')|trim}) %}
+    {{ parent() }}
+{% endblock %}
+
+{% block date_range_widget %}
+    <div class="daterange daterange-inline" data-format="DD.MM.YYYY" data-start-date="{{ form.from.vars.value }}" data-end-date="{{ form.to.vars.value }}">
+        <i class="entypo-calendar"></i>
+        <span>{{ form.from.vars.value }} - {{ form.to.vars.value }}</span>
+    </div>
+    <input id="{{ id }}_from" type="hidden" name="{{ form.from.vars.full_name }}" value="{{ form.from.vars.value }}"/>
+    <input id="{{ id }}_to" type="hidden" name="{{ form.to.vars.full_name }}" value="{{ form.to.vars.value }}"/>
+
+    <script>
+        $(document).ready(function () {
+            var $from = $('#{{ id }}_from');
+            var $to = $('#{{ id }}_to');
+
+            $(".daterange").each(function(i, el)
+            {
+                // Change the range as you desire
+                var ranges = {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                    'Last 7 Days': [moment().subtract('days', 6), moment()],
+                    'Last 30 Days': [moment().subtract('days', 29), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                };
+
+                var $this = $(el),
+                        opts = {
+                            format: attrDefault($this, 'format', 'MM/DD/YYYY'),
+                            timePicker: attrDefault($this, 'timePicker', false),
+                            timePickerIncrement: attrDefault($this, 'timePickerIncrement', false),
+                            separator: attrDefault($this, 'separator', ' - '),
+                        },
+                        min_date = attrDefault($this, 'minDate', ''),
+                        max_date = attrDefault($this, 'maxDate', ''),
+                        start_date = attrDefault($this, 'startDate', ''),
+                        end_date = attrDefault($this, 'endDate', '');
+
+                if($this.hasClass('add-ranges')) {
+                    opts['ranges'] = ranges;
+                }
+
+                if(min_date.length) {
+                    opts['minDate'] = min_date;
+                }
+
+                if(max_date.length) {
+                    opts['maxDate'] = max_date;
+                }
+
+                if(start_date.length) {
+                    opts['startDate'] = start_date;
+                }
+
+                if(end_date.length) {
+                    opts['endDate'] = end_date;
+                }
+
+                $this.daterangepicker(opts, function(start, end) {
+                    var drp = $this.data('daterangepicker');
+
+                    $from.val(start.format(drp.format));
+                    $to.val(end.format(drp.format));
+
+                    if($this.hasClass('daterange-inline')) {
+                        $this.find('span').html(start.format(drp.format) + drp.separator + end.format(drp.format));
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+
+{% block textarea_widget %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{ parent() }}
+{% endblock %}
+
