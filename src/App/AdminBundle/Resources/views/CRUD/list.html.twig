@@ -12,24 +12,26 @@
 {% block content %}
 
     {% if filterForm is defined %}
-    {% form_theme filterForm 'AdminBundle:Form:theme.html.twig' %}
-    {% form_theme filterForm.submit _self %}
+        {% form_theme filterForm 'AdminBundle:Form:theme.html.twig' %}
+        {% form_theme filterForm.submit _self %}
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-title">Фильтры</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Фильтры</div>
 
-            <div class="panel-options">
-                <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
-                <a href="#" data-rel="close" class="bg"><i class="entypo-cancel"></i></a>
+                <div class="panel-options">
+                    <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                    <a href="#" data-rel="close" class="bg"><i class="entypo-cancel"></i></a>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                {{ form(filterForm) }}
             </div>
         </div>
-
-        <div class="panel-body">
-            {{ form(filterForm) }}
-        </div>
-    </div>
     {% endif %}
+
+    {% block additional_panel %}{% endblock %}
 
     <div class="panel panel-primary">
         <div class="panel-heading">

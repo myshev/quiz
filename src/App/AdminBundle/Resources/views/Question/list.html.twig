@@ -9,7 +9,32 @@
 {% block content_title %}Список вопросов{% endblock %}
 
 {% block content_options %}
-    <a href="{{ path('admin_question_new') }}" title="Добавить" class="bg"><i class="entypo-plus"></i></a>
+    {#{% form_theme importForm 'AdminBundle:Form:theme.html.twig' %}
+    {% form_theme importForm.submit _self %}
+    {{ form(importForm) }}#}
+    <a href="{{ path('admin_question_new') }}" title="Добавить" class="bg"><i class="fa fa-plus-square"></i></a>
+{% endblock %}
+
+{% block additional_panel %}
+    {% if importForm is defined %}
+        {% form_theme importForm 'AdminBundle:Form:theme.html.twig' %}
+        {% form_theme importForm.submit _self %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Импорт</div>
+
+                <div class="panel-options">
+                    <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                    <a href="#" data-rel="close" class="bg"><i class="entypo-cancel"></i></a>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                {{ form(importForm) }}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block thead %}
@@ -31,4 +56,13 @@
             </td>
         </tr>
     {% endfor %}
+{% endblock %}
+
+{% block submit_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button type="submit" {{ block('button_attributes') }}><i class="fa fa-download"></i> {{ label|trans({}, translation_domain) }}</button>
+    {% endspaceless %}
 {% endblock %}

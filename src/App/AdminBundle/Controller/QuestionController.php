@@ -5,6 +5,8 @@ namespace App\AdminBundle\Controller;
 use App\MainBundle\Entity\Question;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class QuestionController extends CoreController
 {
@@ -27,10 +29,22 @@ class QuestionController extends CoreController
         $query = $this->createFilterQuery($form);
         $pagination = $this->paginate($query);
 
+        $importForm = $this->getImportForm();
+        $importForm->handleRequest($request);
+
+        if($importForm->isValid()) {
+            if ('csv' !== $importForm->get('file')->getData()->getClientOriginalExtension()) {
+                $importForm->addError(new FormError('Неправильный формат файла. Допускается использование файлов только формата .csv'));
+            }
+//            $file = file_get_contents()
+//            var_dump($importForm['file']->getData());die;
+        }
+
 
         return $this->render('AdminBundle:Question:list.html.twig', [
             'pagination' => $pagination,
-            'filterForm' => $form->createView()
+            'filterForm' => $form->createView(),
+            'importForm' => $importForm->createView()
         ]);
     }
 
@@ -141,5 +155,22 @@ class QuestionController extends CoreController
         $this->addFlashMessage('success', 'Вопрос удален');
 
         return $this->redirect($this->generateUrl('admin_question_list'));
+    }
+
+    private function getImportForm() {
+
+        $builder = $this->container->get('form.factory')->createNamedBuilder('import', 'form', null, [])
+            ->add('file', 'file', [
+                'mapped' => false,
+                'label' => 'Выберите файл (csv)',
+                'constraints' => [
+                    new NotBlank(['message' => 'Необходимо указать файл для загрузки']),
+                ]
+            ])
+            ->add('submit', 'submit', [
+                'label' => 'Загрузить'
+            ])
+            ->getForm();
+        return $builder;
     }
 }
